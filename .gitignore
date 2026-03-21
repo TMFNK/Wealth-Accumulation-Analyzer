@@ -1,0 +1,95 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+outputs/
+dist/
+build/
+*.log
+.DS_Store
+*** Add File: /Users/edis-mac/Documents/03-Eddie-Python-Projects/python/wealth-accumulation-analyzer/docs/superpowers/specs/2026-03-21-wealth-accumulation-analyzer-design.md
+# Wealth Accumulation Analyzer Design
+
+## Goal
+
+Build a Python CLI that compares long-term wealth accumulation for individual stocks versus a benchmark ETF using live historical price data. The first release is a single-ticker MVP that proves the full pipeline end to end before the project scales to multi-ticker comparison reports.
+
+## Scope
+
+### In Scope for the First Slice
+
+- Fetch live dividend-adjusted historical data from Yahoo Finance via `yfinance`
+- Validate that the chosen stock and benchmark have enough overlapping history
+- Simulate a lump-sum investment from the first shared trading day
+- Simulate monthly dollar-cost averaging with fractional shares
+- Compute a small but useful metric set:
+  - total return
+  - CAGR
+  - final portfolio value
+  - annualized volatility
+  - max drawdown
+- Emit a terminal summary and a JSON or CSV result file
+- Keep the code modular so later work can add charts, Excel, and PDF reports without rewriting the analysis core
+
+### Explicitly Deferred
+
+- Multi-ticker batch comparisons
+- Excel workbook output
+- PDF report generation
+- PNG chart generation
+- Caching layer
+- Benchmarks beyond a single stock-versus-benchmark comparison
+
+## Architecture
+
+The application is organized as a small package under `src/wealth_analyzer/` with four clear responsibilities:
+
+- `config.py` loads and validates runtime settings.
+- `data/` fetches and normalizes price history.
+- `analysis/` calculates investment outcomes and metrics.
+- `reports/` formats results for the terminal and for export.
+
+The initial CLI is intentionally thin. It should orchestrate the pipeline, not contain business logic. That keeps the data and analysis code independently testable and makes later report expansion low-risk.
+
+## Data Flow
+
+1. Load config from `config.toml` plus any CLI overrides.
+2. Fetch live data for one stock and one benchmark.
+3. Align both series on the first shared trading date.
+4. Run lump-sum and DCA simulations using adjusted close prices.
+5. Calculate summary metrics for each strategy.
+6. Print a compact comparison table.
+7. Save a machine-readable result file for downstream use.
+
+## Error Handling
+
+- Fail fast on malformed config values.
+- Surface network and Yahoo Finance errors clearly.
+- Skip analysis if the two tickers do not have enough overlapping history.
+- Return actionable messages instead of stack traces for expected user errors.
+
+## Testing Strategy
+
+The first implementation slice should be driven by tests at three levels:
+
+- Pure unit tests for metrics and date alignment helpers
+- Simulation tests for lump-sum and DCA behavior on small synthetic series
+- A light integration test for the CLI using a narrow data fixture or a mocked fetch layer
+
+Because the MVP uses live data in normal runs, tests should not depend on the network for correctness.
+
+## Repository Shape
+
+Planned layout:
+
+- `pyproject.toml`
+- `README.md`
+- `config.toml`
+- `src/wealth_analyzer/`
+- `tests/`
+- `outputs/`
+
+## Next Step
+
+Write the implementation plan for the first MVP slice, then build the repo scaffold and code in small, test-first increments.
