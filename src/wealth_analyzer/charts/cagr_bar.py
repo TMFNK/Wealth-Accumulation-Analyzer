@@ -1,0 +1,2 @@
+"""CAGR bar chart generation."""
+

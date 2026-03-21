@@ -1,0 +1,2 @@
+"""Shared chart styling helpers."""
+

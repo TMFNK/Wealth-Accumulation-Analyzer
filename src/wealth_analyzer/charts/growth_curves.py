@@ -1,0 +1,2 @@
+"""Growth curve chart generation."""
+

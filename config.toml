@@ -1,0 +1,38 @@
+[general]
+start_date = "2013-01-01"
+end_date = "today"
+cache_ttl_days = 1
+
+[investment]
+lump_sum_amount = 10000
+dca_monthly_amount = 500
+risk_free_rate = 0.045
+
+[tickers]
+stocks = [
+  "AAPL",
+  "MSFT",
+  "NVDA",
+  "GOOGL",
+  "AMZN",
+  "TSLA",
+  "META",
+  "JPM",
+  "V",
+  "ASML",
+]
+etfs = [
+  "QQQM",
+  "QQQ",
+  "SMH",
+  "SPY",
+  "VTI",
+]
+qqqm_proxy = "QQQ"
+
+[output]
+output_dir = "outputs"
+chart_dpi = 150
+excel_filename = "wealth_analysis_{date}.xlsx"
+pdf_filename = "wealth_analysis_{date}.pdf"
+log_level = "INFO"

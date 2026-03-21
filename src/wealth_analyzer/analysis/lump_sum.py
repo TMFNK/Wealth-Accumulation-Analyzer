@@ -1,0 +1,2 @@
+"""Lump-sum simulation logic."""
+
