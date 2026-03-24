@@ -1,3 +1,5 @@
+[![AI Slop Inside](https://sladge.net/badge.svg)](https://sladge.net)
+
 # Wealth Accumulation Analyzer
 
 Compare long-term wealth accumulation for individual stocks versus benchmark ETFs using live historical market data.
